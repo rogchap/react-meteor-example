@@ -4,7 +4,7 @@ TodoPage = React.createClass({
     view: React.PropTypes.oneOf(ViewType.values),
   },
 
-  mixins: [ClientMixin],
+  mixins: [ReactMeteorData],
 
   getDefaultProps() {
     return {
@@ -13,8 +13,13 @@ TodoPage = React.createClass({
   },
 
   getInitialState() {
+    return {};
+  },
+
+  getMeteorData() {
+    Meteor.subscribe('Todo.all');
     return {
-      todoItems: [],
+      todoItems: Todo.find({}).fetch(),
     };
   },
 
@@ -35,7 +40,7 @@ TodoPage = React.createClass({
   render() {
     const styles = this.getStyles();
     let { view } = this.props;
-    let { todoItems } = this.state;
+    let { todoItems } = this.data;
     return (
       <div style={styles.root}>
         <Header />
@@ -53,64 +58,3 @@ TodoPage = React.createClass({
     );
   },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- ReactMeteorData
-
- getMeteorData() {
- Meteor.subscribe('Todo.all');
- return {
- todoItems: Todo.find({}).fetch(),
- };
- },
-
- */
